@@ -7,9 +7,10 @@ import { exclude } from '@/utils/prisma-utils';
 import { ReturnCepAdress, ViaCEPAddress } from '../../protocols';
 
 async function getAddressFromCEP(cep: string) {
-  if(!checkCepIsValid(cep)) return null;
+  const formatedCep=cep.replace('-','');
+  if(!checkCepIsValid(formatedCep)) return null;
 
-  const result =await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
+  const result =await request.get(`${process.env.VIA_CEP_API}/${formatedCep}/json/`);
 
   if(result.status===400 || result.data.erro) return null;
   const data = result.data as ViaCEPAddress;
@@ -56,7 +57,7 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
   const enrollment = exclude(params, 'address');
   const address = getAddressForUpsert(params.address);
 
-  if(getAddressFromCEP(address.cep) === null) throw badRequestError("Cep does not exist");
+  if((await getAddressFromCEP(address.cep)) === null) throw badRequestError("Cep does not exist");
 
   const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, 'userId'));
 
