@@ -7,10 +7,9 @@ import { exclude } from '@/utils/prisma-utils';
 import { ReturnCepAdress, ViaCEPAddress } from '../../protocols';
 
 async function getAddressFromCEP(cep: string) {
-  const formatedCep=cep.replace('-','');
-  if(!checkCepIsValid(formatedCep)) return null;
+  if(!checkCepIsValid(cep)) return null;
 
-  const result =await request.get(`${process.env.VIA_CEP_API}/${formatedCep}/json/`);
+  const result =await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
 
   if(result.status===400 || result.data.erro) return null;
   const data = result.data as ViaCEPAddress;
@@ -25,7 +24,7 @@ async function getAddressFromCEP(cep: string) {
 }
 
 function checkCepIsValid(cep: string){
-  const cepRegEx=/^\d{8}$/;
+  const cepRegEx=/^\d{5}(|-)\d{3}$/;
   return cep?.match(cepRegEx) ? true : false;
 }
 
