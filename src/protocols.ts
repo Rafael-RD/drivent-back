@@ -18,3 +18,5 @@ export type RequestError = {
   name: string;
   message: string;
 };
+
+export type ReturnCepAdress= {cidade: string} & Omit<ViaCEPAddress, "localidade">;
