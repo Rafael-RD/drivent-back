@@ -7,6 +7,7 @@ import { exclude } from '@/utils/prisma-utils';
 import { ReturnCepAdress, ViaCEPAddress } from '../../protocols';
 
 async function getAddressFromCEP(cep: string) {
+  if(!checkCepIsValid(cep)) return null;
 
   const result =await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
 
@@ -76,8 +77,7 @@ export type CreateOrUpdateEnrollmentWithAddress = CreateEnrollmentParams & {
 const enrollmentsService = {
   getOneWithAddressByUserId,
   createOrUpdateEnrollmentWithAddress,
-  getAddressFromCEP,
-  checkCepIsValid
+  getAddressFromCEP
 };
 
 export default enrollmentsService;
