@@ -4,28 +4,26 @@ import { badRequestError, conflictError, invalidDataError, notFoundError } from 
 import addressRepository, { CreateAddressParams } from '@/repositories/address-repository';
 import enrollmentRepository, { CreateEnrollmentParams } from '@/repositories/enrollment-repository';
 import { exclude } from '@/utils/prisma-utils';
-import { ReturnCepAdress, ViaCEPAddress } from '../../protocols';
+import { AddressEnrollment } from '@/protocols';
 
-async function getAddressFromCEP(cep: string) {
-  if(!checkCepIsValid(cep)) return null;
+async function getAddressFromCEP(cep: string): Promise<AddressEnrollment> {
+  const result = await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
 
-  const result =await request.get(`${process.env.VIA_CEP_API}/${cep}/json/`);
+  if (!result.data || result.data.erro) {
+    throw notFoundError();
+  }
 
-  if(result.status===400 || result.data.erro) return null;
-  const data = result.data as ViaCEPAddress;
+  const { bairro, localidade, uf, complemento, logradouro } = result.data;
 
-  return {
-    logradouro: data.logradouro,
-    complemento: data.complemento,
-    bairro: data.bairro,
-    cidade: data.localidade,
-    uf: data.uf
-  } as ReturnCepAdress;
-}
+  const address: AddressEnrollment = {
+    bairro,
+    cidade: localidade,
+    uf,
+    complemento,
+    logradouro,
+  };
 
-function checkCepIsValid(cep: string){
-  const cepRegEx=/^\d{5}(|-)\d{3}$/;
-  return cep?.match(cepRegEx) ? true : false;
+  return address;
 }
 
 async function getOneWithAddressByUserId(userId: number): Promise<GetOneWithAddressByUserIdResult> {
@@ -56,7 +54,7 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
   const enrollment = exclude(params, 'address');
   const address = getAddressForUpsert(params.address);
 
-  if((await getAddressFromCEP(address.cep)) === null) throw badRequestError("Cep does not exist");
+  await getAddressFromCEP(address.cep);
 
   const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, 'userId'));
 
