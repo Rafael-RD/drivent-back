@@ -38,8 +38,8 @@ export function handleApplicationErrors(
     });
   }
 
-  if(err.name === "BadRequest"){
-    return  res.status(httpStatus.BAD_REQUEST).send({
+  if (err.name === "BadRequest") {
+    return res.status(httpStatus.BAD_REQUEST).send({
       message: err.message
     });
   }
