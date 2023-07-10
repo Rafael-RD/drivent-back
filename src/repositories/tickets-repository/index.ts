@@ -1,8 +1,36 @@
 import { prisma } from "@/config";
 import { CreateTicket } from "@/services";
+import { TicketStatus } from "@prisma/client";
 
 async function findAllTicketsTypes() {
     return prisma.ticketType.findMany();
+}
+
+async function findTicketById(id: number) {
+    return prisma.ticket.findUnique({
+        where: {
+            id
+        }
+    })
+}
+
+async function findTicketTypeById(id: number) {
+    return prisma.ticketType.findUnique({
+        where: {
+            id
+        }
+    })
+}
+
+async function updatePayTicket(id: number) {
+    return prisma.ticket.update({
+        where: {
+            id
+        },
+        data: {
+            status: "PAID"
+        }
+    })
 }
 
 async function findUserTicket(userId: number) {
@@ -25,7 +53,7 @@ async function createTicket({ ticketTypeId }: CreateTicket, enrollmentId: number
             ticketTypeId,
             enrollmentId
         },
-        include:{
+        include: {
             TicketType: true
         }
     })
@@ -33,6 +61,9 @@ async function createTicket({ ticketTypeId }: CreateTicket, enrollmentId: number
 
 const ticketsRepository = {
     findAllTicketsTypes,
+    findTicketById,
+    findTicketTypeById,
+    updatePayTicket,
     findUserTicket,
     createTicket
 }

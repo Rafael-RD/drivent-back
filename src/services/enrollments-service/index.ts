@@ -40,6 +40,10 @@ async function getOneWithAddressByUserId(userId: number): Promise<GetOneWithAddr
   };
 }
 
+async function getEnrollmentById(id: number) {
+  return await enrollmentRepository.findEnrollmentById(id);
+}
+
 type GetOneWithAddressByUserIdResult = Omit<Enrollment, 'userId' | 'createdAt' | 'updatedAt'>;
 
 function getFirstAddress(firstAddress: Address): GetAddressResult {
@@ -74,6 +78,7 @@ export type CreateOrUpdateEnrollmentWithAddress = CreateEnrollmentParams & {
 
 const enrollmentsService = {
   getOneWithAddressByUserId,
+  getEnrollmentById,
   createOrUpdateEnrollmentWithAddress,
   getAddressFromCEP
 };
