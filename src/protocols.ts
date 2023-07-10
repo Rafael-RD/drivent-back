@@ -45,4 +45,4 @@ export type RequestError = {
   message: string;
 };
 
-export type ReturnCepAdress= {cidade: string} & Omit<ViaCEPAddress, "localidade">;
+export type ReturnCepAdress = { cidade: string } & Omit<ViaCEPAddress, 'localidade'>;

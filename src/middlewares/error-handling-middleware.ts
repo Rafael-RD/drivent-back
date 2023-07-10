@@ -38,9 +38,9 @@ export function handleApplicationErrors(
     });
   }
 
-  if (err.name === "BadRequest") {
+  if (err.name === 'BadRequest') {
     return res.status(httpStatus.BAD_REQUEST).send({
-      message: err.message
+      message: err.message,
     });
   }
 

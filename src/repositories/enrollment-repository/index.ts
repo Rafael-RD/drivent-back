@@ -13,9 +13,9 @@ async function findWithAddressByUserId(userId: number) {
 async function findEnrollmentById(id: number) {
   return prisma.enrollment.findUnique({
     where: {
-      id
-    }
-  })
+      id,
+    },
+  });
 }
 
 async function upsert(
