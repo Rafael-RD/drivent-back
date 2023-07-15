@@ -1,5 +1,6 @@
 import { prisma } from '@/config';
 import { CreateTicket } from '@/services';
+import { TicketStatus } from '@prisma/client';
 
 async function findAllTicketsTypes() {
   return prisma.ticketType.findMany();
@@ -27,7 +28,7 @@ async function updatePayTicket(id: number) {
       id,
     },
     data: {
-      status: 'PAID',
+      status: TicketStatus.PAID,
     },
   });
 }
