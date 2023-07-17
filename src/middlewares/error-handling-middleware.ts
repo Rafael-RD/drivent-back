@@ -44,7 +44,7 @@ export function handleApplicationErrors(
     });
   }
 
-  if (err.name === 'PaymentRequired'){
+  if (err.name === 'PaymentRequired') {
     return res.status(httpStatus.PAYMENT_REQUIRED).send({
       message: err.message,
     });

@@ -1,12 +1,12 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { authenticateToken } from "../middlewares";
-import { getAllHotels, getRoomsFromHoteId } from "../controllers";
+import { Router } from 'express';
+import { authenticateToken } from '@/middlewares';
+import { getAllHotels, getRoomsFromHoteId } from '@/controllers';
 
-const hotelsRouter=Router();
+const hotelsRouter = Router();
 
 hotelsRouter
     .all('/*', authenticateToken)
     .get('/', getAllHotels)
-    .get('/:hotelId', getRoomsFromHoteId)
+    .get('/:hotelId', getRoomsFromHoteId);
 
 export { hotelsRouter };
