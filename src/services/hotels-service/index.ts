@@ -4,7 +4,7 @@ import ticketsService from '../tickets-service';
 import hotelsRepository from '@/repositories/hotels-repository';
 
 async function getAllHotels(userId: number) {
-  checkUserHasAccommodation(userId);
+  await checkUserHasAccommodation(userId);
   const hotels = await hotelsRepository.findAllHotels();
   return hotels;
 }
