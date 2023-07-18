@@ -11,6 +11,7 @@ async function getAllHotels(userId: number) {
 
 async function checkUserHasAccommodation(userId: number) {
   const ticket = await ticketsService.getUserTicket(userId);
+  if (ticket.TicketType.isRemote === true) throw paymentRequired();
   if (ticket.TicketType.includesHotel === false) throw paymentRequired();
   if (ticket.status !== TicketStatus.PAID) throw paymentRequired();
 }
