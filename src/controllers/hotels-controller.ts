@@ -14,7 +14,7 @@ export async function getRoomsFromHoteId(req: AuthenticatedRequest, res: Respons
   const userId = req.userId;
   const hotelId = Number(req.params.hotelId);
 
-  const rooms = await hotelsService.getRoomsFromHoteId(hotelId, userId);
+  const hotelInfo = await hotelsService.getRoomsFromHoteId(hotelId, userId);
 
-  return res.send(rooms);
+  return res.send(hotelInfo);
 }

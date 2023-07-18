@@ -19,9 +19,9 @@ async function checkUserHasAccommodation(userId: number) {
 async function getRoomsFromHoteId(hotelId: number, userId: number) {
   if (hotelId < 0 || isNaN(hotelId)) throw badRequestError('hotelId is invalid');
   await checkUserHasAccommodation(userId);
-  const rooms = await hotelsRepository.findRoomsFromHotelId(hotelId);
-  if (rooms.length === 0) throw notFoundError();
-  return rooms;
+  const hotelInfo = await hotelsRepository.findRoomsFromHotelId(hotelId);
+  if (!hotelInfo) throw notFoundError();
+  return hotelInfo;
 }
 
 const hotelsService = {
