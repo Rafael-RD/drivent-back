@@ -1,5 +1,5 @@
 import { TicketStatus } from '@prisma/client';
-import { paymentRequired } from '@/errors';
+import { badRequestError, notFoundError, paymentRequired } from '@/errors';
 import ticketsService from '../tickets-service';
 import hotelsRepository from '@/repositories/hotels-repository';
 
@@ -17,7 +17,8 @@ async function checkUserHasAccommodation(userId: number) {
 }
 
 async function getRoomsFromHoteId(hotelId: number, userId: number) {
-  checkUserHasAccommodation(userId);
+  if (hotelId < 0 || isNaN(hotelId)) throw badRequestError('hotelId is invalid');
+  await checkUserHasAccommodation(userId);
   const rooms = await hotelsRepository.findRoomsFromHotelId(hotelId);
   return rooms;
 }
