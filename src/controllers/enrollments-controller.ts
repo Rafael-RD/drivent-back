@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
 import enrollmentsService from '@/services/enrollments-service';
@@ -28,7 +28,7 @@ export async function postCreateOrUpdateEnrollment(req: AuthenticatedRequest, re
   }
 }
 
-export async function getAddressFromCEP(req: AuthenticatedRequest, res: Response) {
+export async function getAddressFromCEP(req: Request, res: Response) {
   const { cep } = req.query as Record<string, string>;
 
   try {
