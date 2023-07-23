@@ -30,7 +30,7 @@ export async function createTicketTypeConfigurable({ hasHotel, isRemote }: Creat
 export type CreateTicketTypeParams = {
   hasHotel?: boolean;
   isRemote?: boolean;
-}
+};
 
 export async function createTicket(enrollmentId: number, ticketTypeId: number, status: TicketStatus) {
   return prisma.ticket.create({

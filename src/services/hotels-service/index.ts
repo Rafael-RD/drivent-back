@@ -1,6 +1,6 @@
 import { TicketStatus } from '@prisma/client';
-import { badRequestError, notFoundError, paymentRequired } from '@/errors';
 import ticketsService from '../tickets-service';
+import { badRequestError, notFoundError, paymentRequired } from '@/errors';
 import hotelsRepository from '@/repositories/hotels-repository';
 
 async function getAllHotels(userId: number) {

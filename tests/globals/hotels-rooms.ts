@@ -1,3 +1,3 @@
-export const hotelsRooms: HotelsRooms= {}
+export const hotelsRooms: HotelsRooms = {};
 
-type HotelsRooms= {[key: string]: string[]}
+type HotelsRooms = { [key: string]: string[] };

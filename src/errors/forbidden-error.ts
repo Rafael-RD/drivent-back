@@ -1,8 +1,8 @@
-import { ApplicationError } from "@/protocols";
+import { ApplicationError } from '@/protocols';
 
 export function forbiddenError(): ApplicationError {
-    return {
-        name: 'ForbiddenError',
-        message: 'Forbidden Action!',
-    }
+  return {
+    name: 'ForbiddenError',
+    message: 'Forbidden Action!',
+  };
 }
